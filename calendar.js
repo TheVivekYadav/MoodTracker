@@ -50,7 +50,7 @@ export function createCalendar(calendarDays){
                             currentDate.getMonth() === today.getMonth() && 
                             currentDate.getFullYear() === today.getFullYear();
 
-		const dayElement = createDayElement(i, isToday);
+		const dayElement = createDayElement(i, false, isToday);
 		calendarDays.appendChild(dayElement);
 	}
 
