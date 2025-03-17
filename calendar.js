@@ -35,7 +35,7 @@ export function createCalendar(calendarDays){
 	
 	// for loop for previous month days 
 	for(let i = startingDay - 1; i >= 0; i--){
-		const dayElement = createDayElement(prevMonthLastDay - i);
+		const dayElement = createDayElement(prevMonthLastDay - i, true);
 		calendarDays.appendChild(dayElement);
 	}
 
@@ -59,16 +59,20 @@ export function createCalendar(calendarDays){
 	//bache kitne 
 	const remaningCells = totalCells - (startingDay + totalDays); //42 - (6 + 31)
 	for(let i = 1; i <= remaningCells; i++){
-		const dayElement = createDayElement(i);
+		const dayElement = createDayElement(i, true);
 		calendarDays.appendChild(dayElement);
 	}
 	console.log("calendar created");
 }
 
 // this function creates element for me by taking dayNumber
-function createDayElement(dayNumber, isToday = false){
+function createDayElement(dayNumber, isOtherMonth, isToday = false){
 	const dayElement = document.createElement('div');
 	dayElement.className = 'day';
+
+	if(isOtherMonth){
+		dayElement.classList.add('other-month');
+	}
 
 	if(isToday){
 		dayElement.classList.add('today');
