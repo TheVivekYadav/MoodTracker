@@ -1,3 +1,12 @@
+import {openMoodModal} from "./openMoodModal.js";
+//import {moodContainer} from "./moodContainer.js"
+import {formatDateKey} from "./openMoodModal.js";
+
+const currentDate = new Date(); // return current date (Mon Mar 17 2025 18:41:06 GMT+0530 (India Standard Time))
+let selectedDate = null;
+
+const monthYear = document.getElementById("month-year");
+
 export function createCalendar(calendarDays){
 	console.log("creating Calendar");
 	const monthNames = [
@@ -16,7 +25,6 @@ export function createCalendar(calendarDays){
 	];
 
 	
-	const currentDate = new Date(); // return current date (Mon Mar 17 2025 18:41:06 GMT+0530 (India Standard Time))
 	const currentMonth = monthNames[currentDate.getMonth()];
 	const currentYear = currentDate.getFullYear();
 
@@ -66,9 +74,10 @@ export function createCalendar(calendarDays){
 }
 
 // this function creates element for me by taking dayNumber
-function createDayElement(dayNumber, isOtherMonth, isToday = false){
+function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	const dayElement = document.createElement('div');
 	dayElement.className = 'day';
+
 
 	if(isOtherMonth){
 		dayElement.classList.add('other-month');
@@ -83,6 +92,31 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false){
 	dayNumberElement.textContent = dayNumber;
 	dayElement.appendChild(dayNumberElement);
 
+	const emojiElement = document.createElement('span');
+	emojiElement.className = 'emoji';
+
+	const moodString = localStorage.getItem(`mood-${formatDateKey(parseMonthYear(monthYear.innerHTML, dayNumber))}`);
+
+	if (moodString) {
+		const mood = JSON.parse(moodString);
+		console.log(mood); // 😊`
+	emojiElement.textContent = mood.emoji;
+	}
+	dayElement.appendChild(emojiElement);
+
+	// Add click event only for current month days
+        if (!isOtherMonth) {
+            dayElement.addEventListener('click', () => {
+                selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
+                openMoodModal(selectedDate, dayNumber);
+            });
+        }
+
 	return dayElement;
 }
 
+export function parseMonthYear(monthYearString, dayNumber) {
+    const [monthName, year] = monthYearString.split(" ");
+    const monthIndex = new Date(`${monthName} 1, ${year}`).getMonth();
+    return new Date(year, monthIndex, dayNumber);
+}
