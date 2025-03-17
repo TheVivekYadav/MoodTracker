@@ -86,13 +86,60 @@ button:hover {
 }
 
 
+/* Calendar Styles */
+
+.calendar{
+	background-color: #fff;
+	border-radius: 8px;
+}
 
 
+.weekdays{
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-align: center;
+	font-weight: 500;
+	color: #70757a;
+}
 
+.weekdays div{
+	padding: 10px;
+	font-size: 12px;
+}
 
+.days{
+	display: grid;
+	grid-template-rows: minmax(100px, auto);
+	grid-template-columns: repeat(7, 1fr);
+	gap: 1px;
+	background-color: #dadce0;
+}
 
+.day{
+	background-color: #fff;
+	padding: 8px;
+	min-height: 100px;
+	position: relative;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
 
+.day:hover{
+	background-color: #f1f3f4;
+}
 
+.day-number{
+	font-size: 14px;
+}
+
+.today{
+	background-color: #e8f0fe;
+}
+
+.today .day-number {
+    color: #1a73e8;
+    font-weight: bold;
+}
 
 
 
