@@ -1,5 +1,7 @@
 import {createCalendar} from "./calendar.js";
 import {parseMonthYear, formatDateKey, updateCalendar} from "./utils/formatting.js";
+import {renderMoodContainer} from "./moodContainer.js";
+import {showToast} from "./messageToast.js";
 
 export function openMoodModal(selectedDate, dayNumber, x, y) {
 const calendarDays = document.getElementById('calendar-days');
@@ -48,6 +50,7 @@ const monthYear = document.getElementById("month-year");
             document.querySelectorAll(".mood-btn").forEach(btn => btn.classList.remove("selected"));
             button.classList.add("selected");
             selectedMood = mood.name;
+            console.log(selectedMood );console.log( selectedEmoji);
             saveMood();
         });
         moodButtonsContainer.appendChild(button);
@@ -89,11 +92,13 @@ const monthYear = document.getElementById("month-year");
             emoji:userEmoji,
         };
  
-        if (selectedMood == "Delete"){
+        if (selectedMood == "Delete" && selectedEmoji){
             localStorage.removeItem(`mood-${formatDateKey(selectedDate)}`);
-        }else{
+            showToast("Deleted","red");
+        }else if(selectedMood != "Delete"){
         localStorage.setItem(`mood-${formatDateKey(selectedDate)}`, JSON.stringify(moodData));
-        }console.log("Saved Mood Data:", moodData);
+        showToast("Mood added to Calendar");
+        }
         modalContainer.style.display = "none";
 
         // Re-Render Calendar
@@ -102,3 +107,32 @@ const monthYear = document.getElementById("month-year");
     }
 }
 
+export function openAddMoodModal(x, y){
+    const modalContainer = document.getElementById("input-mode-modal");
+    modalContainer.innerHTML = "";
+    
+    modalContainer.innerHTML = `
+        <div class="modal-box" style="top: ${y}; left: ${x};">
+            <input type="text" id="mood-name" placeholder="Enter mood name...">
+            <input type="text" id="mood-emoji" placeholder="Enter mood emoji...">
+            <button id="submit-mood">Add Mood</button>
+        </div>
+    `;
+
+    document.getElementById("submit-mood").addEventListener("click", () => {
+            const newMoodName = document.getElementById("mood-name").value;
+            const newMoodEmoji = document.getElementById("mood-emoji").value;
+            modalContainer.innerHTML = "";
+    
+     if (newMoodName && newMoodEmoji) {
+            const moods = JSON.parse(localStorage.getItem("moods"));
+            if(!moods){
+                alert("Unable to add Mood");
+            }else{
+            moods.push({ name: newMoodName, emoji: newMoodEmoji});
+            localStorage.setItem("moods", JSON.stringify(moods));
+            renderMoodContainer();}
+            showToast("Mood Added Success fully");
+        }
+        });
+}

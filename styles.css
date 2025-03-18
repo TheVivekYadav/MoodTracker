@@ -197,4 +197,62 @@ span.emoji{
 .mood-btn:hover{
 	opacity: 0.9;
 }
+/* Input Modal Styles */
+
+.modal-box {
+    position: absolute;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    width: 200px;
+}
+
+.modal-box input {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-box button {
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.modal-box button:hover {
+    background-color: #0056b3;
+}
+
+/* messageToast styles */
+
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.toast {
+    ///background-color: green;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
 
