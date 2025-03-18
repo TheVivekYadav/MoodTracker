@@ -109,7 +109,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	// Add click event only for current month days
             dayElement.addEventListener('click', (e) => {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
-                openMoodModal(selectedDate, dayNumber);
+                openMoodModal(selectedDate, dayNumber, `${e.clientX}px`, `${e.clientY}px`);
             });
         }
 

@@ -3,6 +3,20 @@ import {renderMoodContainer} from "./moodContainer.js";
 import {updateCalendar} from "./utils/formatting.js";
 
 
+// check localStorage
+let moods = JSON.parse(localStorage.getItem("moods"));
+if (!moods) {
+    moods = [{name:"Delete", emoji:"❌"},
+            { name: "Happy", emoji: "😊"},
+            { name: "Neutral", emoji: "😐"},
+            { name: "Productive", emoji: "💪"},
+            { name: "Stressed", emoji: "😣"}
+        ];
+        localStorage.setItem("moods", JSON.stringify(moods));
+    }
+
+
+
 createCalendar(calendarDays);
 
 renderMoodContainer();

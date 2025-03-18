@@ -1,32 +1,24 @@
 import {createCalendar} from "./calendar.js";
 import {parseMonthYear, formatDateKey, updateCalendar} from "./utils/formatting.js";
 
+export function openMoodModal(selectedDate, dayNumber, x, y) {
 const calendarDays = document.getElementById('calendar-days');
 const monthYear = document.getElementById("month-year");
-let moods = JSON.parse(localStorage.getItem("moods"));
-if (!moods) {
-    moods = [{name:"Delete", emoji:""},
-            { name: "Happy", emoji: "😊"},
-            { name: "Neutral", emoji: "😐"},
-            { name: "Productive", emoji: "💪"},
-            { name: "Stressed", emoji: "😣"}
-        ];
-        localStorage.setItem("moods", JSON.stringify(moods));
-    }
 
-export function openMoodModal(selectedDate, dayNumber, x, y) {
 
     const modalContainer = document.getElementById("mood-modal");
-    
+   // console.log(x,y);
+
     // Modal HTML structure
     modalContainer.innerHTML = `
-        <div class="modal-content">
+        <div class="modal-content" id="modal-content">
             <div class="mood-selector" id="mood-buttons"></div>
         </div>
     `;
-    
-    const closeButton = modalContainer.querySelector(".close");
-    const saveButton = modalContainer.querySelector("#save-mood");
+    const modalContent = modalContainer.querySelector("#modal-content");
+    modalContent.style.top = y;
+    modalContent.style.left = x;
+
     const moodButtonsContainer = modalContainer.querySelector("#mood-buttons");
     let selectedMood = "";
     let selectedEmoji = "";
@@ -48,13 +40,9 @@ export function openMoodModal(selectedDate, dayNumber, x, y) {
     moods.forEach(mood => {
         const button = document.createElement("button");
         button.classList.add("mood-btn");
-        if(mood.name == "Delete")
-        {
-            button.textContent = "➖";
-            button.style.color = "red";
-        }else{
-            button.textContent = mood.emoji;
-        }
+        button.title = mood.name;
+        button.textContent = mood.emoji;
+        
         if (mood.name === selectedMood) button.classList.add("selected");
         button.addEventListener("click", () => {
             document.querySelectorAll(".mood-btn").forEach(btn => btn.classList.remove("selected"));
@@ -67,7 +55,10 @@ export function openMoodModal(selectedDate, dayNumber, x, y) {
     
     // Show the modal
     modalContainer.style.display = "block";
-   
+    modalContent.style.left = x;
+    modalContent.style.top = y;
+    
+ 
 
     // Save mood selection
     function saveMood() {
