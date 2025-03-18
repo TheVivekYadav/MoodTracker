@@ -1,10 +1,8 @@
 import {openMoodModal} from "./openMoodModal.js";
 import {formatDateKey, parseMonthYear} from "./utils/formatting.js";
 
-const currentDate = new Date(); // return current date (Mon Mar 17 2025 18:41:06 GMT+0530 (India Standard Time))
 let selectedDate = null;
 
-const monthYear = document.getElementById("month-year");
 
 export function createCalendar(calendarDays){
 	console.log("creating Calendar");
@@ -24,6 +22,7 @@ export function createCalendar(calendarDays){
 	];
 
 	
+	
 	const currentMonth = monthNames[currentDate.getMonth()];
 	const currentYear = currentDate.getFullYear();
 
@@ -34,6 +33,9 @@ export function createCalendar(calendarDays){
 	const totalDays = lastDay.getDate();
 
 	const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+
+
+	monthYear.innerHTML = `${currentMonth} ${currentYear}`;
 
 	//totalDays in previous Month is startingDay - 1;
 
@@ -105,7 +107,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	dayElement.appendChild(emojiElement);
 
 	// Add click event only for current month days
-            dayElement.addEventListener('click', () => {
+            dayElement.addEventListener('click', (e) => {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
                 openMoodModal(selectedDate, dayNumber);
             });

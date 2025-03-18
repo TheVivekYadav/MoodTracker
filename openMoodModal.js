@@ -1,30 +1,27 @@
 import {createCalendar} from "./calendar.js";
-import {parseMonthYear, formatDateKey} from "./utils/formatting.js";
+import {parseMonthYear, formatDateKey, updateCalendar} from "./utils/formatting.js";
 
 const calendarDays = document.getElementById('calendar-days');
 const monthYear = document.getElementById("month-year");
 let moods = JSON.parse(localStorage.getItem("moods"));
 if (!moods) {
-    moods = [
-            { name: "Happy", emoji: "😊", color: "#4285f4" },
-            { name: "Neutral", emoji: "😐", color: "#fbbc05" },
-            { name: "Productive", emoji: "💪", color: "#34a853" },
-            { name: "Stressed", emoji: "😣", color: "#ea4335" }
+    moods = [{name:"Delete", emoji:""},
+            { name: "Happy", emoji: "😊"},
+            { name: "Neutral", emoji: "😐"},
+            { name: "Productive", emoji: "💪"},
+            { name: "Stressed", emoji: "😣"}
         ];
         localStorage.setItem("moods", JSON.stringify(moods));
     }
 
-export function openMoodModal(selectedDate, dayNumber) {
+export function openMoodModal(selectedDate, dayNumber, x, y) {
 
     const modalContainer = document.getElementById("mood-modal");
     
     // Modal HTML structure
     modalContainer.innerHTML = `
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>How are you feeling today?</h3>
             <div class="mood-selector" id="mood-buttons"></div>
-            <button id="save-mood">Save</button>
         </div>
     `;
     
@@ -32,6 +29,7 @@ export function openMoodModal(selectedDate, dayNumber) {
     const saveButton = modalContainer.querySelector("#save-mood");
     const moodButtonsContainer = modalContainer.querySelector("#mood-buttons");
     let selectedMood = "";
+    let selectedEmoji = "";
 
 
     
@@ -44,38 +42,37 @@ export function openMoodModal(selectedDate, dayNumber) {
     if (savedMood) {
         selectedMood = savedMood.mood;
         selectedEmoji = savedMood.emoji;
+
     }
     
-    // Populate mood buttons dynamically
     moods.forEach(mood => {
         const button = document.createElement("button");
         button.classList.add("mood-btn");
-        button.style.backgroundColor = mood.color;
-        button.textContent = mood.emoji + " " + mood.name;
+        if(mood.name == "Delete")
+        {
+            button.textContent = "➖";
+            button.style.color = "red";
+        }else{
+            button.textContent = mood.emoji;
+        }
         if (mood.name === selectedMood) button.classList.add("selected");
         button.addEventListener("click", () => {
             document.querySelectorAll(".mood-btn").forEach(btn => btn.classList.remove("selected"));
             button.classList.add("selected");
             selectedMood = mood.name;
+            saveMood();
         });
         moodButtonsContainer.appendChild(button);
     });
     
     // Show the modal
     modalContainer.style.display = "block";
-    
-    // Close modal when clicking 'X'
-    closeButton.addEventListener("click", () => {
-        modalContainer.style.display = "none";
-    });
-
-
+   
 
     // Save mood selection
-    saveButton.addEventListener("click", () => {
+    function saveMood() {
         let userEmoji;
         const param = `moods`;
-        console.log(typeof param);
         const moodString = localStorage.getItem(param);
 
 
@@ -83,7 +80,6 @@ export function openMoodModal(selectedDate, dayNumber) {
 		const mood = JSON.parse(moodString);
     
         for(let i = 0; i < mood.length; i++){
-                console.log(`${mood[i].name}==${selectedMood}`)
             if(mood[i].name == selectedMood){
                 userEmoji = mood[i].emoji;
                 break;
@@ -91,28 +87,27 @@ export function openMoodModal(selectedDate, dayNumber) {
             }
         }
 
-       console.log(`selected mood ${selectedMood}`);
-        if(!userEmoji){
-            userEmoji = '😂';
-        }
+       //console.log(`selected mood ${selectedMood}`);
+        //if(!userEmoji){
+          //  userEmoji = '😂';
+        //}
 
         const moodData = {
             date: formatDateKey(selectedDate),
             mood: selectedMood,
             emoji:userEmoji,
         };
+ 
+        if (selectedMood == "Delete"){
+            localStorage.removeItem(`mood-${formatDateKey(selectedDate)}`);
+        }else{
         localStorage.setItem(`mood-${formatDateKey(selectedDate)}`, JSON.stringify(moodData));
-        console.log("Saved Mood Data:", moodData);
+        }console.log("Saved Mood Data:", moodData);
         modalContainer.style.display = "none";
 
         // Re-Render Calendar
         updateCalendar(calendarDays);
         //createCalendar(calendarDays);
-    });
+    }
 }
 
-function updateCalendar(calendarDays) {
-    const calendarContainer = document.getElementById("calendar-days");
-    calendarContainer.innerHTML = ""; // Clear existing calendar
-    createCalendar(calendarDays); // Re-render calendar
-}

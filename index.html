@@ -14,9 +14,9 @@
 				</div>
 
 				<div class="header-center">
-					<button><span class="arrow">&#10094;</span></button>
+					<button id="prev-month"><span class="arrow">&#10094;</span></button>
 					<h2 id="month-year">March 2025</h2>
-					<button><span class="arrow">&#10095;</button>
+					<button id='next-month'><span class="arrow">&#10095;</button>
 				</div>
 				
 				<div class="header-right">
@@ -46,23 +46,18 @@
 
 			<div id="mood-modal" class="modal">
 				<div class="modal-content">
-					<span class="close">&times;</span>
-					<h3>How are you feeling today?</h3>
-					<div class="mood-selector">
-						<button class="mood-btn" style="background-color: #4285f4;">Happy</button>
-						<button class="mood-btn" style="background-color: #fbbc05;">Neutral</button>
-						<button class="mood-btn" style="background-color: #34a853;">Productive</button>
-						<button class="mood-btn" style="background-color: #ea4335;">Stressed</button>
-					</div>
-					<div class="notes-section">
-						<label for="mood-notes">Notes:</label>
-						<textarea id="mood-notes" placeholder="Add notes about your day..."></textarea>
-					</div>
-					<button id="save-mood">Save</button>
 				</div>
 			</div>
 		
 		</div>
 	</body>
-	<script type="module" src="script.js"></script>
+	<script>	
+		const currentDate = new Date()
+		const calendarDays = document.getElementById('calendar-days');
+		const monthYear = document.getElementById('month-year');
+		const prevMonthBtn = document.getElementById('prev-month');
+		const nextMonthBtn = document.getElementById('next-month');
+		const todayBtn = document.getElementById('today-btn');
+	</script>	
+<script type="module" src="script.js"></script>
 </html>
