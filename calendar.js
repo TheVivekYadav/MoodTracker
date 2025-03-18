@@ -1,6 +1,5 @@
 import {openMoodModal} from "./openMoodModal.js";
-//import {moodContainer} from "./moodContainer.js"
-import {formatDateKey} from "./openMoodModal.js";
+import {formatDateKey, parseMonthYear} from "./utils/formatting.js";
 
 const currentDate = new Date(); // return current date (Mon Mar 17 2025 18:41:06 GMT+0530 (India Standard Time))
 let selectedDate = null;
@@ -115,8 +114,3 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	return dayElement;
 }
 
-export function parseMonthYear(monthYearString, dayNumber) {
-    const [monthName, year] = monthYearString.split(" ");
-    const monthIndex = new Date(`${monthName} 1, ${year}`).getMonth();
-    return new Date(year, monthIndex, dayNumber);
-}

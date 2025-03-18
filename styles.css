@@ -146,6 +146,13 @@ button:hover {
 	background-color: #f8f9fa;
 }
 
+span.emoji{
+	font-size: 40px;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
 /* Modal Styles */
 
 .modal{

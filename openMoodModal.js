@@ -1,4 +1,5 @@
-import {createCalendar, parseMonthYear} from "./calendar.js";
+import {createCalendar} from "./calendar.js";
+import {parseMonthYear, formatDateKey} from "./utils/formatting.js";
 
 const calendarDays = document.getElementById('calendar-days');
 const monthYear = document.getElementById("month-year");
@@ -110,9 +111,6 @@ export function openMoodModal(selectedDate, dayNumber) {
     });
 }
 
-export function formatDateKey(date) {
-        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    }
 function updateCalendar(calendarDays) {
     const calendarContainer = document.getElementById("calendar-days");
     calendarContainer.innerHTML = ""; // Clear existing calendar

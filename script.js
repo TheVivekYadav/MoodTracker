@@ -5,6 +5,5 @@ const calendarDays = document.getElementById('calendar-days');
 
 createCalendar(calendarDays);
 
-// Initial render of the mood container
 renderMoodContainer();
 
