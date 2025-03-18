@@ -90,7 +90,8 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	dayNumberElement.className = 'day-number';
 	dayNumberElement.textContent = dayNumber;
 	dayElement.appendChild(dayNumberElement);
-
+        
+	if (!isOtherMonth) {
 	const emojiElement = document.createElement('span');
 	emojiElement.className = 'emoji';
 
@@ -104,7 +105,6 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	dayElement.appendChild(emojiElement);
 
 	// Add click event only for current month days
-        if (!isOtherMonth) {
             dayElement.addEventListener('click', () => {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
                 openMoodModal(selectedDate, dayNumber);
