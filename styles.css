@@ -6,7 +6,9 @@
 	font-family: Arial, sans-serif;
 	user-select: none;
 }
-
+html{
+	background-color: rgba(0, 0, 0, 0.3);
+}
 body{
 	background-color: #f8f9fa;
 	color: #202124;
@@ -102,15 +104,22 @@ button:hover {
 	font-weight: 500;
 	color: #70757a;
 }
-
-.weekdays div{
+#week-day-legend{
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	min-height: 1.5vw;
+}
+#week-day-legend > h1{
+	font-size: calc(0.7vw + 0.7vh);
+	width: 100%;
+	text-align: center;
 	padding: 10px;
-	font-size: 12px;
 }
 
 .days{
 	display: grid;
-	grid-template-rows: minmax(100px, auto);
+	grid-template-rows: minmax(2vw, auto);
 	grid-template-columns: repeat(7, 1fr);
 	gap: 1px;
 	background-color: #dadce0;
@@ -148,7 +157,7 @@ button:hover {
 }
 
 span.emoji{
-	font-size: 40px;
+    font-size: calc(1.5vw + 1.4vh);
     text-align: center;
     width: 100%;
     display: block;
@@ -233,6 +242,16 @@ span.emoji{
     background-color: #0056b3;
 }
 
+#emoji-modal{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left:0;
+	top:0;
+	width: 100%;
+	height: 100%;
+}
+
 /* messageToast styles */
 
 #toast-container {
@@ -256,3 +275,41 @@ span.emoji{
     transition: opacity 0.3s ease-in-out;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+	.header-left{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 10px;
+	}
+    
+    .header-center {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .mood-legend {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+	.day{
+		min-width: calc(100vw / 8);
+	}
+	#week-day-legend{
+		height: 1vw;
+		min-height: 1vw;
+	}
+}

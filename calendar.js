@@ -1,6 +1,6 @@
 import {openMoodModal} from "./openMoodModal.js";
 import {formatDateKey, parseMonthYear} from "./utils/formatting.js";
-
+import {formatXY} from "./utils/formatXY.js";
 let selectedDate = null;
 
 
@@ -21,7 +21,25 @@ export function createCalendar(calendarDays){
 		'December'
 	];
 
-	
+	const weekDays = [
+		'Sun',
+		'Mon',
+		'Tue',
+		'Wed',
+		'Thu',
+		'Fri',
+		'Sat'
+	];
+
+	const fullWeekDays = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday'
+	]
 	
 	const currentMonth = monthNames[currentDate.getMonth()];
 	const currentYear = currentDate.getFullYear();
@@ -36,6 +54,15 @@ export function createCalendar(calendarDays){
 
 
 	monthYear.innerHTML = `${currentMonth} ${currentYear}`;
+
+
+
+	// Legends 
+	for (let i = 0; i < 7; i++){
+		const dayElement = createDayElement(weekDays[i], false, false, null, true);
+		dayElement.title = `${fullWeekDays[i]}`;
+		calendarDays.appendChild(dayElement);
+	}
 
 	//totalDays in previous Month is startingDay - 1;
 
@@ -75,10 +102,17 @@ export function createCalendar(calendarDays){
 }
 
 // this function creates element for me by taking dayNumber
-function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
+function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null, isLegend=false){
 	const dayElement = document.createElement('div');
 	dayElement.className = 'day';
 
+
+	if(isLegend){
+		dayElement.id = 'week-day-legend';
+		const content = document.createElement('h1');
+		content.textContent = dayNumber;
+		dayElement.appendChild(content);
+	}
 
 	if(isOtherMonth){
 		dayElement.classList.add('other-month');
@@ -87,7 +121,8 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	if(isToday){
 		dayElement.classList.add('today');
 	}
-
+	
+	if(!isLegend){
 	const dayNumberElement = document.createElement('div');
 	dayNumberElement.className = 'day-number';
 	dayNumberElement.textContent = dayNumber;
@@ -109,8 +144,9 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false, date=null){
 	// Add click event only for current month days
             dayElement.addEventListener('click', (e) => {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
-                openMoodModal(selectedDate, dayNumber, `${e.clientX}px`, `${e.clientY}px`);
+                openMoodModal(selectedDate, dayNumber, `${e.clientX}`,`${e.clientY}`);
             });
+		}
         }
 
 	return dayElement;

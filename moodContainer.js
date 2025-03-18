@@ -23,7 +23,7 @@ export function renderMoodContainer() {
     addMoodButton.textContent = "+";
     addMoodButton.classList.add("add-mood-btn");
     addMoodButton.addEventListener("click", (e) => {
-        openAddMoodModal(`${e.clientX}px`, `${e.clientY}px`);
+        openAddMoodModal(`${e.clientX}`, `${e.clientY}`);
         //const newMoodName = prompt("Enter mood name:");
         //const newMoodEmoji = prompt("Enter mood emoji:");
         ///

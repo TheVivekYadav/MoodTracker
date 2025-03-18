@@ -45,9 +45,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 	window.addEventListener('click', (e)=>{
 		const modal = document.getElementById("mood-modal");
-		if(e.target === modal){
-			modal.style.display = `none`;
-		}
+		const emojiModal = document.getElementById("emoji-modal");
+		if(e.target === modal) modal.style.display = `none`;
+		if(e.target ===emojiModal) emojiModal.style.display = `none`;
+		
 	});
 });
 

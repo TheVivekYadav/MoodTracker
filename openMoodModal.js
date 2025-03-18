@@ -2,8 +2,9 @@ import {createCalendar} from "./calendar.js";
 import {parseMonthYear, formatDateKey, updateCalendar} from "./utils/formatting.js";
 import {renderMoodContainer} from "./moodContainer.js";
 import {showToast} from "./messageToast.js";
+import {formatXY} from "./utils/formatXY.js";
 
-export function openMoodModal(selectedDate, dayNumber, x, y) {
+export function openMoodModal(selectedDate, dayNumber, clientX, clientY) {
 const calendarDays = document.getElementById('calendar-days');
 const monthYear = document.getElementById("month-year");
 
@@ -18,9 +19,6 @@ const monthYear = document.getElementById("month-year");
         </div>
     `;
     const modalContent = modalContainer.querySelector("#modal-content");
-    modalContent.style.top = y;
-    modalContent.style.left = x;
-
     const moodButtonsContainer = modalContainer.querySelector("#mood-buttons");
     let selectedMood = "";
     let selectedEmoji = "";
@@ -58,10 +56,23 @@ const monthYear = document.getElementById("month-year");
     
     // Show the modal
     modalContainer.style.display = "block";
-    modalContent.style.left = x;
-    modalContent.style.top = y;
+
+    //it ensures the modal dosent go beyond the client screen
     
- 
+    const {x,y} = formatXY(modalContent,`${clientX}`,`${clientY}`);
+
+    modalContent.style.top = `${y}px`;
+    modalContent.style.left = `${x}px`;
+
+    window.addEventListener("resize", () => {
+        const {x,y} = formatXY(modalContent,`${clientX}`,`${clientY}`);
+
+    modalContent.style.top = `${y}px`;
+    modalContent.style.left = `${x}px`;
+
+    });
+
+
 
     // Save mood selection
     function saveMood() {
@@ -107,18 +118,19 @@ const monthYear = document.getElementById("month-year");
     }
 }
 
-export function openAddMoodModal(x, y){
-    const modalContainer = document.getElementById("input-mode-modal");
+export function openAddMoodModal(clientX, clientY){
+    const modalContainer = document.getElementById("emoji-modal");
     modalContainer.innerHTML = "";
     
     modalContainer.innerHTML = `
-        <div class="modal-box" style="top: ${y}; left: ${x};">
+        <div class="modal-box" id="modal-box">
             <input type="text" id="mood-name" placeholder="Enter mood name...">
             <input type="text" id="mood-emoji" placeholder="Enter mood emoji...">
             <button id="submit-mood">Add Mood</button>
         </div>
     `;
 
+    
     document.getElementById("submit-mood").addEventListener("click", () => {
             const newMoodName = document.getElementById("mood-name").value;
             const newMoodEmoji = document.getElementById("mood-emoji").value;
@@ -131,8 +143,33 @@ export function openAddMoodModal(x, y){
             }else{
             moods.push({ name: newMoodName, emoji: newMoodEmoji});
             localStorage.setItem("moods", JSON.stringify(moods));
-            renderMoodContainer();}
             showToast("Mood Added Success fully");
+            renderMoodContainer();
+            modalContainer.style.display = `none`;
+            }
+            
         }
+
         });
+
+        modalContainer.style.display = `block`;
+    
+    const modalBox = document.getElementById('modal-box');
+    //it ensures the modal dosent go beyond the client screen
+         const {x,y} = formatXY(modalBox,`${clientX}`,`${clientY}`);
+
+        modalBox.style.top = `${y}px`;
+        modalBox.style.left = `${x}px`;
+
+    window.addEventListener("resize", () => {
+   const modalBox = document.getElementById('modal-box');
+         if (!modalBox || modalBox.style.display === "none") return;
+    //it ensures the modal dosent go beyond the client screen
+         const {x,y} = formatXY(modalBox,`${clientX}`,`${clientY}`);
+
+        modalBox.style.top = `${y}px`;
+        modalBox.style.left = `${x}px`;
+
+        });
+
 }
