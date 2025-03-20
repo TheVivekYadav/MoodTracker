@@ -9,8 +9,8 @@ A simple and interactive **Mood Tracker** application.
 - ⏳ **(Upcoming Feature)** **Timeline View** - View past moods in a **day/week/month-wise** format.
 
 ## Screenshots 📸
-![pc Version](./img/screenshot1.png)
-![Mobile Version](./img/screenshot2.png)
+![pc Version](./img/ss1.png)
+![Mobile Version](./img/ss2.png)
 
 ## Deployment 🌐
 [Click here to use the Mood Tracker](#) *(Replace with actual deployment link)*
