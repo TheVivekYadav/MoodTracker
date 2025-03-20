@@ -18,7 +18,7 @@ A simple and interactive **Mood Tracker** application.
 ## Installation & Usage 🛠
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/mood-tracker.git
+   git clone https://github.com/TheVivekYadav/mood-tracker.git
    cd mood-tracker
    ```
 2. Open `index.html` in a browser.
